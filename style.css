@@ -1,0 +1,107 @@
+/* Existing CSS for body/canvas */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  background-color: #111;
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+canvas#game {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+.hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 97.8vw;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #fff;
+  font-size: 2vw;
+  border-radius: 0 0 24px 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 5;
+}
+
+#hud-high-score {
+  font-size: 2vw;
+}
+#hud-active-powerup {
+  font-size: 3.5vw;
+  color: #ffd700; /* Золотой цвет */
+  text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.7); /* Красная тень */
+  font-weight: bold;
+  /* Убедимся, что он центрирован, если нужно */
+  flex-grow: 1; /* Позволяет занять центральное пространство */
+  text-align: center;
+}
+/* --- НОВЫЕ СТИЛИ ДЛЯ HTML ЭКРАНОВ --- */
+
+.overlay-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.18); /* Полупрозрачный фон */
+  z-index: 10; /* Поверх канваса */
+  color: white;
+
+  text-align: center;
+  /* Убедитесь, что текст красиво масштабируется */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.title {
+  font-size: 3vw;
+  margin-bottom: 20px;
+  color: #ffffff; /* Золотой */
+}
+
+.gameover-title {
+  font-size: 3vw;
+  color: #fff;
+}
+
+h2 {
+  font-size: 1vw;
+  margin: 10px 0;
+}
+
+.action-button {
+  width: 500px;
+  height: 120px;
+  font-size: 34px;
+  color: #ffffff;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.4s, transform 0.2s, box-shadow 0.3s;
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
