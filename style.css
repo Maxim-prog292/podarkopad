@@ -1,183 +1,123 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap");
-* {
-  user-select: none;
-}
+/* Existing CSS for body/canvas */
+html,
 body {
   margin: 0;
+  padding: 0;
   overflow: hidden;
-  background: radial-gradient(
-    circle at top,
-    #cceeff,
-    #99ccff 70%,
-    #88bbee 100%
-  );
-  font-family: "Nunito", sans-serif;
+  height: 100%;
+  background-color: #111;
+  font-family: "Comic Sans MS", sans-serif;
+  user-select: none;
 }
-#overlay1 {
-  width: 2260px;
-  height: 120px;
-  position: absolute;
-  left: -80px;
-  top: 0px;
-}
-#overlay2 {
-  width: 2270px;
-  height: 120px;
-  position: absolute;
-  left: -80px;
-  bottom: 0px;
-}
-#overlay3 {
-  width: 110px;
-  height: 1200px;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-}
-#overlay4 {
-  width: 110px;
-  height: 1200px;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-}
-canvas {
+
+canvas#game {
   display: block;
-  margin: 0 auto;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
-}
-#game {
-  z-index: 10;
-}
-
-/* Скрываем по умолчанию, будет показано через JS при старте игры */
-#info {
-  position: absolute;
-  bottom: 130px;
-  left: 120px;
-  color: #003366;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  padding: 16px 26px;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-  font-size: 24px;
-  z-index: 10;
-  display: none; /* Скрыто по умолчанию */
-}
-
-/* Скрываем по умолчанию, будет показано через JS при старте игры */
-#restartBtn {
-  position: absolute;
-  bottom: 130px;
-  right: 120px;
-  background: rgba(255, 255, 255, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(6px);
-  border-radius: 10px;
-  padding: 16px 26px;
-  color: #003366;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 24px;
-  z-index: 10;
-  display: none; /* Скрыто по умолчанию */
-}
-
-#restartBtn:hover {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-#snow {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none;
-  z-index: -1;
+  object-fit: contain;
+}
+.hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 97.8vw;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #fff;
+  font-size: 2vw;
+  border-radius: 0 0 24px 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 5;
 }
 
-/* Общий стиль для попапов (Меню и Результаты) */
-.popup {
-  position: absolute;
-  min-width: 400px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #003366;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  padding: 30px 40px; /* Увеличенный паддинг для меню */
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+#hud-high-score {
+  font-size: 2vw;
+}
+#hud-active-powerup {
+  font-size: 3.5vw;
+  color: #ffd700; /* Золотой цвет */
+  text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.7); /* Красная тень */
+  font-weight: bold;
+  /* Убедимся, что он центрирован, если нужно */
+  flex-grow: 1; /* Позволяет занять центральное пространство */
   text-align: center;
-  font-size: 28px;
-  display: none; /* Скрыто по умолчанию, управляется JS */
-  z-index: 10;
 }
+/* --- НОВЫЕ СТИЛИ ДЛЯ HTML ЭКРАНОВ --- */
 
-#menuPopup {
-  display: block; /* Показываем меню при запуске */
-}
-
-.popup button {
-  display: block; /* Кнопки в попапе будут блочными */
-  width: 100%; /* Занимают всю ширину попапа */
-  margin: 20px 0 0 0; /* Отступ сверху, 0 по бокам */
-  color: #003366;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  padding: 16px 26px;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-  font-size: 24px;
-  cursor: pointer;
-  transition: 0.3s;
-  border: none;
-}
-.popup button:active {
-  background: #aad8ff;
-}
-
-/* Скрываем по умолчанию, будет показано через JS при старте игры */
-#gameUI {
+.overlay-screen {
   position: absolute;
-  top: 130px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none; /* Скрыто по умолчанию */
-  gap: 50px;
-  color: #003366;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  padding: 16px 26px;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-  font-size: 24px;
-  font-family: Arial, sans-serif;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.18); /* Полупрозрачный фон */
+  z-index: 10; /* Поверх канваса */
+  color: white;
+
+  text-align: center;
+  /* Убедитесь, что текст красиво масштабируется */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.title {
+  font-size: 3vw;
+  margin-bottom: 20px;
+  color: #ffffff; /* Золотой */
+}
+
+.gameover-title {
+  font-size: 3vw;
+  color: #fff;
+}
+
+h2 {
+  font-size: 1vw;
+  margin: 10px 0;
+}
+
+.action-button {
+  width: 500px;
+  height: 120px;
+  font-size: 34px;
+  color: #ffffff;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.4s, transform 0.2s, box-shadow 0.3s;
 }
 #exit-button {
-  display: inline-block; /* Кнопки в попапе будут блочными */
-  width: 50%; /* Занимают всю ширину попапа */
-  margin: 40px 0 0 0; /* Отступ сверху, 0 по бокам */
-  color: #003366;
+  width: 300px;
+  height: 60px;
+  font-size: 34px;
+  color: #ffffff;
+  border-radius: 16px;
+  margin-top: 40px;
   text-decoration: none;
-
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  padding: 16px 26px;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-  font-size: 24px;
-  cursor: pointer;
-  transition: 0.3s;
-  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.4s, transform 0.2s, box-shadow 0.3s;
 }
 
+.action-button:active,
 #exit-button:active {
-  background: #aad8ff;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
